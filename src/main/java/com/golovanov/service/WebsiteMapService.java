@@ -27,16 +27,15 @@ public class WebsiteMapService {
         path = slashCheck(path);
         websiteMap = new ForkJoinPool().invoke(new WebsiteMapper(checkedLinks, path, path));
 
-        // TODO: 16/09/2022 remove
-        System.out.println("websiteMap size -> " + websiteMap.size());
-        System.out.println("indexing is done");
-
         checkedLinks.clear();
 
         if (websiteMap.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        // delete previous data
+        // maybe it is better to replace old data and delete them after successful saving of new one...
+        repository.deleteAll();
         repository.saveAll(websiteMap);
         return new ResponseEntity<>(HttpStatus.OK);
     }

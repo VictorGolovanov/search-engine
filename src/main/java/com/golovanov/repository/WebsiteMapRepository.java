@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface WebsiteMapRepository extends JpaRepository<WebPage, Integer> {
     Optional<WebPage> findByPath(String path);
+
+    @Override
+    void deleteAll();
 }
